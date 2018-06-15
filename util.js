@@ -19,33 +19,63 @@ var util = (function($) {
              * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
              */
             // alert(signature);
-            wx.config({
+            // if (document.getElementById("cs").value) {
+            //     wx.config({
 
-                debug: false,
+            //         debug: true,
 
-                appId: appId,
+            //         appId: appId,
 
-                timestamp: timestamp,
+            //         timestamp: timestamp,
 
-                nonceStr: nonceStr,
+            //         nonceStr: nonceStr,
 
-                signature: signature,
+            //         signature: signature,
 
-                jsApiList: [
+            //         jsApiList: [
 
-                    // 所有要调用的 API 都要加到这个列表中
+            //             // 所有要调用的 API 都要加到这个列表中
 
-                    'onMenuShareTimeline',
+            //             'onMenuShareTimeline',
 
-                    'onMenuShareAppMessage',
+            //             'onMenuShareAppMessage',
 
-                    'onMenuShareQQ',
+            //             'onMenuShareQQ',
 
-                    'onMenuShareWeibo',
+            //             'onMenuShareWeibo',
 
-                ]
+            //         ]
 
-            });
+            //     });
+            // } else {
+                wx.config({
+
+                    debug: false,
+
+                    appId: appId,
+
+                    timestamp: timestamp,
+
+                    nonceStr: nonceStr,
+
+                    signature: signature,
+
+                    jsApiList: [
+
+                        // 所有要调用的 API 都要加到这个列表中
+
+                        'onMenuShareTimeline',
+
+                        'onMenuShareAppMessage',
+
+                        'onMenuShareQQ',
+
+                        'onMenuShareWeibo',
+
+                    ]
+
+                });
+            // }
 
             wx.ready(function() {
 
@@ -198,52 +228,9 @@ var util = (function($) {
             };
         },
 
-        /**
-         * 根据手机型号跳转下载地址
-         * opts.weixinUrl是微信下的跳转地址
-         * opts.androidUrl是安卓下的跳转地址
-         * opts.iosUrl是IOS下的跳转地址
-         * opts.weixinFn是微信下执行的遮罩等行为
-         */
-        downloadUrl: function(opts) {
-            var versionsRes = this.versions();
-            if (versionsRes.weixin) {
-                //  微信下 跳转 提示页面
-                if (opts.weixinUrl) {
-                    window.location.href = window.location.host + "down/wap_down_linger1.html";
-                } else if (opts.weixinFn) {
-                    opts.weixinFn();
-                } else {
-                    return false;
-                }
-
-            } else {
-                if (versionsRes.android) {
-                    //  android
-                    window.location.href = opts.androidUrl;
-                } else if (versionsRes.ios) {
-                    window.location.href = opts.iosUrl;
-                    // ios
-                }
-
-            }
-        },
-        //placeHolder模拟
-        textHolder: function(obj, text) {
-            obj.on("focus", function() {
-                if ($(this).val() == text) {
-                    $(this).attr("data-value", $(this).val());
-                    $(this).val("");
-                }
-            }).on("blur", function() {
-                if ($.trim($(this).val()) == "") {
-                    $(this).val($(this).attr("data-value"));
-                }
-            });
-        },
         //验证手机号码
         phoneCode: function(sPhone) {
-            if (!(/^1[3|4|5|7|8]\d{9}$/.test(sPhone))) {
+            if (!(/^1[2-9][0-9]{9}$/.test(sPhone))) {
                 return false;
             } else {
                 return true;
@@ -254,9 +241,9 @@ var util = (function($) {
 })(jQuery);
 $(function() {
     //分享
-    var icon = "http://bmt.shengli.com/" + $("#sharePic").val();
-    var link = "http://bmt.shengli.com/pengbei";
-    var title = "礼未尽，杯莫停，疯狂碰杯赢好礼！";
-    var contents = "礼未尽，杯莫停，疯狂碰杯赢正版周边";
-    util.share({ title: title, contents: contents, link: link, icon: icon });
+    var icon = "http://www.shengli.com/" + $("#sharePic").val();
+    var link = $("body").attr("data-link");
+    var title =$("body").attr("data-title");
+    var contents=$("body").attr("data-contents");
+    util.share({ title: title, contents:conents, link: link, icon: icon });
 })
